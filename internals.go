@@ -1,9 +1,10 @@
 package flockerbot
 
 import (
-	"snippets/fixbuffer"
 	"strconv"
 	"time"
+
+	"github.com/JonathanLogan/flockerbot/fixbuffer"
 )
 
 // socketReader reads a string from a blocking io.Reader socket and sends it to channel c.
