@@ -36,6 +36,8 @@ ReadLoop:
 
 // setNick sets the nick of the connection
 func (b *Bot) setNick() {
+	b.mutex.RLock()
+	defer b.mutex.RUnlock()
 	if !b.IsServer {
 		nick := b.Nick
 		if b.nickCount >= 0 {
@@ -54,6 +56,8 @@ func (b *Bot) setUser() {
 	} else {
 		b.SendString("USER " + b.User + " 0 * " + b.User)
 	}
+	b.mutex.RLock()
+	defer b.mutex.RUnlock()
 	b.userSet = true
 }
 
@@ -71,7 +75,7 @@ func (b *Bot) ticker() {
 	}()
 SendLoop:
 	for {
-		time.Sleep(time.Second * time.Duration(b.Timeout-10))
+		time.Sleep(time.Second * 10)
 		select {
 		case b.socketChan <- nil:
 			continue SendLoop
